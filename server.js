@@ -12,6 +12,21 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
+app.get('/api/whoami', function (req, res) {
+  var ipAddressArr = req.connection.remoteAddress.split(':');
+  var ipAddress = ipAddressArr[ipAddressArr.length-1];
+  var language = req.headers['accept-language'].split(',')[0];
+  var software = req.headers['user-agent'];
+  software = software.substring(software.indexOf('(')+1,software.indexOf(')'));
+
+  var info = {};
+  info.ipaddress = ipAddress;
+  info.language = language;
+  info.software = software;
+  
+  res.json(info);
+});
+
 app.get('/:id', function (req, res) {
 
   var timestamp = decodeURIComponent(req.params.id);
